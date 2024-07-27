@@ -1,4 +1,4 @@
-import { cart } from '../data/cart.js';
+import { cart, addToCart } from '../data/cart.js';
 import { products } from '../data/products.js';
 
 let productsHTML = '';
@@ -60,34 +60,22 @@ products.forEach((product) => {
 const productsGridElm = document.getElementById('products-grid-element');
 productsGridElm.innerHTML = productsHTML;
 
-const addToCartBtn = document.querySelectorAll('.addToCart-button');
-addToCartBtn.forEach((button) => {
-  button.addEventListener('click', () => {
-    const productId = button.dataset.productId;
-
-    let matchingItem ;
-    cart.forEach((item) => {
-      if (productId === item.productId){
-        matchingItem = item;
-      }
-    });
-
-    if(matchingItem){
-      matchingItem.quantity += 1;
-    } else{
-      cart.push({
-        productId: productId,
-        quantity: 1
-      });
-    }
-
+  function updateCartQuantity () {
     let cartQuantity = 0;
-    cart.forEach((item) => {
-      cartQuantity += item.quantity;
+    cart.forEach((cartItem) => {
+      cartQuantity += cartItem.quantity;
     });
 
     const cartQuantityElm = document.getElementById('cart-quantity-element');
     cartQuantityElm.innerHTML = cartQuantity;
+  }
+
+const addToCartBtn = document.querySelectorAll('.addToCart-button');
+addToCartBtn.forEach((button) => {
+  button.addEventListener('click', () => {
+    const productId = button.dataset.productId;
+    addToCart(productId);
+    updateCartQuantity();
   });
 });
 
