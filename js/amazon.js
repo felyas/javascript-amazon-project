@@ -70,14 +70,21 @@ addToCartBtn.forEach((button) => {
     });
 
     if(matchingItem){
-      matchingItem.quantity ++;
-    } else if (!matchingItem){
+      matchingItem.quantity += 1;
+    } else{
       cart.push({
         productId: productId,
         quantity: 1
       });
     }
-    console.log(cart);
+
+    let cartQuantity = 0;
+    cart.forEach((item) => {
+      cartQuantity += item.quantity;
+    });
+
+    const cartQuantityElm = document.getElementById('cart-quantity-element');
+    cartQuantityElm.innerHTML = cartQuantity;
   });
 });
 
